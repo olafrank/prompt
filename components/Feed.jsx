@@ -24,6 +24,7 @@ const Feed = () => {
   const [posts, setPosts] = useState([])
 
   const handleSearchChange = (e) => {
+    setSearchText(e.target.value);
 
   }
 
@@ -37,6 +38,13 @@ const Feed = () => {
     fetchPosts();
   }, []);
 
+  const filteredPosts = posts.filter(post => {
+    return post.prompt.toLowerCase().includes(searchText.toLowerCase()) ||
+      post.username?.toLowerCase().includes(searchText.toLowerCase())
+  })
+
+
+
   return (
     <section className='feed'>
       <form className='relative w-full flex-center'>
@@ -49,7 +57,7 @@ const Feed = () => {
           className='search_input peer' />
       </form>
       <PromptCardList
-        data={posts}
+        data={filteredPosts}
         handleTagClick={() => { }} />
     </section>
   )
